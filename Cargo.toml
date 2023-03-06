@@ -10,3 +10,5 @@ edition = "2021"
 gl = "0.14.0"
 cgmath = "0.18.0"
 glfw = "0.51.0"
+
+nalgebra-glm = "0.18.0"

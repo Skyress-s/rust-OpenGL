@@ -139,6 +139,14 @@ impl Shader {
         // let location = glGetUniformLocation(self.shader_program, name.as_bytes_with_nul().as_ptr() as *const i8);
         // glUniformMatrix4fv(location, 1, GL_FALSE, mat4x4.as_ptr() as *const f32)
     }
+
+    pub fn set_mat4x4_glm(&self, name : String, mat4x4: nalgebra_glm::Mat4x4){
+        unsafe {
+            let name2 = CString::new(name).expect("Cstring::Failed");
+            let location = gl::GetUniformLocation(self.shader_program, name2.as_bytes_with_nul().as_ptr() as *const i8);
+            gl::UniformMatrix4fv(location, 1, gl::FALSE, mat4x4.as_ptr() as *const f32)
+        }
+    }
 }
 
 impl Drop for Shader{

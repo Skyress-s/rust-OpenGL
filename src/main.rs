@@ -1,6 +1,10 @@
 ﻿
 extern crate glfw;
 mod Shader;
+mod Rendering;
+use Rendering::{Camera};
+
+extern crate nalgebra_glm;
 
 use cgmath::num_traits::ToPrimitive;
 use cgmath::SquareMatrix;
@@ -70,13 +74,18 @@ fn main() {
         gl::EnableVertexAttribArray(0);
     }
 
+
     let mainShader = Shader::Shader::build(&"vertex.txt".to_string(), &"fragment.txt".to_string());
     mainShader.use_shader();
-    let mut model = cgmath::Matrix4::from_value(1f32);
-    mainShader.set_mat4x4_String("model".to_string(), model);
-    mainShader.set_mat4x4_String("view".to_string(), model);
-    mainShader.set_mat4x4_String("projection".to_string(), model);
+    // let mut model = cgmath::Matrix4::from_value(1f32);
+    // mainShader.set_mat4x4_String("model".to_string(), model);
+    // mainShader.set_mat4x4_String("view".to_string(), model);
+    // mainShader.set_mat4x4_String("projection".to_string(), model);
 
+    let identityMatrix = nalgebra_glm::Mat4x4::new_scaling(1f32);
+    mainShader.set_mat4x4_glm("model".to_string(), identityMatrix);
+    mainShader.set_mat4x4_glm("view".to_string(), identityMatrix);
+    mainShader.set_mat4x4_glm("projection".to_string(), identityMatrix);
     // Loop until the user closes the window
     'mainLoop: while !window.should_close() {
         // Swap front and back buffers
@@ -91,8 +100,8 @@ fn main() {
             handle_glfw_events(&event, & mut window);
             println!("{:?}", event);
         }
-        model = cgmath::Matrix4::from_translation(cgmath::Vector3::new(0.0001f32,0f32,0f32)) * model;
-        mainShader.set_mat4x4_String("model".to_string(), model);
+        // model = cgmath::Matrix4::from_translation(cgmath::Vector3::new(0.0001f32,0f32,0f32)) * model;
+        // mainShader.set_mat4x4_String("model".to_string(), model);
 
         unsafe {
             gl::DrawArrays(gl::TRIANGLES, 0, 3);
