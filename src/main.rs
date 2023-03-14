@@ -2,7 +2,11 @@
 extern crate glfw;
 mod Shader;
 mod Rendering;
-use Rendering::{Camera};
+use Rendering::Camera::{MainCamera, CameraBuilder};
+
+mod transfrom;
+
+
 
 extern crate nalgebra_glm;
 
@@ -16,6 +20,11 @@ const SCREEN_HEIGHT : u32 = 600u32;
 fn main() {
     let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
     // glfw::WindowHint(gl::PROFILE)
+
+    let a = transfrom::Transform::new();
+    // let mut bb = cgmath::Transform3::one();
+
+
 
     // Create a windowed mode window and its OpenGL context
     let (mut window, events) = glfw.create_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello this is window", glfw::WindowMode::Windowed)

@@ -1,5 +1,5 @@
 use std;
-use std::ffi::{CStr, CString};
+use std::ffi::{ CString};
 use std::fmt::{Display, Formatter};
 use std::fs;
 use std::io::BufRead;
@@ -142,6 +142,7 @@ impl Shader {
 
     pub fn set_mat4x4_glm(&self, name : String, mat4x4: nalgebra_glm::Mat4x4){
         unsafe {
+
             let name2 = CString::new(name).expect("Cstring::Failed");
             let location = gl::GetUniformLocation(self.shader_program, name2.as_bytes_with_nul().as_ptr() as *const i8);
             gl::UniformMatrix4fv(location, 1, gl::FALSE, mat4x4.as_ptr() as *const f32)
